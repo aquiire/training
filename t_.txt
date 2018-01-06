@@ -1,0 +1,69 @@
+Visual Concept Labs
+
+Branches:
+
+US
+AU
+SL
+
+US
+
+Research
+
+IP
+PATENTS
+PUBLIC
+TRADE secrets
+
+AU
+
+not much innovation
+Repairments/maintenance
+
+SL
+
+More of a software developer
+reluctance to research
+
+frontiers of AI wave
+
+SWOT Analysis
+=============
+
+Strength
+========
+
+Weaknesses
+=========
+
+Opportunities
+=============
+
+Threats
+=======
+
+
+Document Paths:
+==============
+
+- Notebooks / code:
+home/amila/ssd_keras-master
+/home/amila/Desktop/models-master/object_detection
+/home/amila/video_similarity
+/media/amila/prank/GitHub/videoRecog/videoRecog/videoRecog
+
+/media/prank/CapturePreview - capture preview program by vidura
+
+- Files (Ads / hashes)
+/media/amila/sank/Ads - ad transitions (1.1 GB 353 ads + frame_gen.py)
+/media/amila/sank/predictions - COCO predictions (23.2 GB 2000 preds)
+/home/amila/Documents/predictions - COCO dataset predictions (19.3 GB 2000 preds)
+/media/amila/prank/COCO - COCO dataset (2.1 GB 26297 items)
+/media/amila/prank/COCO2 - 900 each 20 cat (3.0 GB 18000 images)
+/media/amila/prank/annotations
+/media/amila/prank/annotations(2)
+/media/amila/prank/annotations(3) - annotations for COCO
+/media/amila/prank/catalina\ log\ reader - additional project to send errors
+/media/amila/prank/ADDS - some ads, scripts, hashes (4.4 GB 4075 items)
+/media/amila/prank/conda - CNTK examples (839 items, totalling 1.8 GB)
+/media/amila/prank/etc/ai - c++ tuts 

@@ -1,0 +1,74 @@
+Visual Concept Labs
+
+Branches:
+
+US
+AU
+SL
+
+US
+
+Research
+
+IP
+PATENTS
+PUBLIC
+TRADE secrets
+
+AU
+
+not much innovation
+Repairments
+
+SL
+
+More of a software developer
+reluctance to research
+
+frontiers of AI wave
+
+
+Document Paths:
+==============
+
+home/amila/ssd_keras-master
+/home/amila/Desktop/models-master/object_detection
+/home/amila/video_similarity
+/media/amila/prank/GitHub/videoRecog/videoRecog/videoRecog
+
+Demo on 13/12/2017 at DialogTV kotahena
+=======================================
+
+Vidura showed his work on ad detection system
+Problems tackled
+- Magic Number subdivision to 4 parts
+- inter channel - robust algo cutting logos 
+- garbage in frame (susceptability to change in text, crawlers, decos, fingerprints etc)
+- zooming
+
+We tried
+- cropped 
+- zoomed in
+- hash without removing borders and logos, 
+successfully
+
+Requests & what's next
+- implement without removing borders and logos
+- increase more weight to middle boxes and decrease for around ones
+- interest area for ads (Hero - middle area Hero logo)
+- embed in current system
+- performance improvements
+- make parameter tuning bench for dtv team
+
+Heshan showed about Siamese Network
+- It's susceptability to inter-channel ad detection
+
+points made
+- ability to use Siamese itself to detect scene changes
+- ability to only keep Hashes of the key frames of the first 25 frames of the ad
+
+Heshan - ad detection using audio
+- Problem - offset
+    - floating window
+    - get & save an audio stream from sdi to test with
+- bark system
