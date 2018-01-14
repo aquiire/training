@@ -1,0 +1,64 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{array, longtable}
+\graphicspath{{images/}}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+\setmainfont{Times New Roman}
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+    	\Large
+        \vspace{1cm}
+        \textbf{UNIVERSITY OF MORATUWA}\\
+        Faculty of Engineering\\
+        \vspace{.5cm}
+        \includegraphics[width=0.4\textwidth]{logo.png}\\
+        \vspace{0.5cm}
+        Registered Module Number: 3992\\
+        \vspace{1cm}
+        \textbf{INDUSTRIAL TRAINING REPORT}\\
+        \vspace{1cm}
+        \textbf{vcLABs (Pvt.) Ltd.}\\
+        \vspace{1cm}
+        From 19/06/2017 to 01/12/2017\\
+        \vspace{.5cm}
+        Date of Submission:\\
+        19/01/2017\\
+        \vspace{.5cm}
+        Ravinath W.D.A.P.\\
+        140530L Department of Electronics and Telecommunication Engineering
+    \end{center}
+\end{titlepage}
+\renewcommand{\thepage}{\roman{page}}
+\chapter*{Preface}
+This report comprises my experiences in vcLABs (Pvt.) Ltd. where I chose and I was chosen to get my 24-week training as an undergraduate of department of Electronic and Telecomminication of University of Moratuwa.
+
+The first chapter gives an overview of vcLABs (Pvt.) Ltd, The history, current situation and future endeavours of the company. The next chapter is dedicated to the training experience I had in the company as a Software Development trainee. Finally in the conclusion I try to have an evaluation of my training experience.
+
+\chapter*{Acknowledgement}
+I would like to extend my gratitude to Dr. Madhawa Silva the CEO for the constant guidance given to us throughout the training period and Eng. Sagara the CTO for being supportive. I make this an opportunity to thank our supervisors, ex-STO Mr. Pathideva de Fonseka and STO Eng. Dilaj Perera for making sure to get the best out of us.Thank you, vcLABs Colombo Chapter crew Mrs. Sashi Wanniarachchi the Human Resource Manager, Mr. Nalaka Dissanayake, Ms. Sanduni Wickramasinghe and Mr. Sanira Nanayakkara for making our training experience invaluable and being immensely supportive.
+
+I would also like to thank Engineering Training Division of University of Moratuwa and NAITA for giving me this opprtunity.
+
+Finally I would like to thank my collegues Vidura and Heshan for making our training period successfull together.
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+
+\newpage
+\renewcommand{\thepage}{\arabic{page}} % to return the count back to arabic numbers 
+\setcounter{page}{1} % this line returns the counter to 1 
+\chapter{Introduction to the Training Establishment}
+\input{chapters/intro.tex}
+
+\chapter{Training Experiences}
+\input{chapters/training_ecp.tex}
+
+\chapter{Conclusion}
+\input{chapters/conclusion.tex}
+\end{document}
