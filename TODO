@@ -1,7 +1,9 @@
-1. Write the training report
-    - Make the coverpage
-    - Adjust the spacing / font sizes
+# - TODO
+% - DONE!
+#. Write the training report
+    % Make the coverpage
+    # Adjust the spacing / font sizes
     
 % Remove horizontal line in the header in fancy page style
 # change page margin to 1 inch, line spacing 1.5 paragraph spacing 3
-# photo of Blackmagic SDI / Black magic interface / Visual Studio Environment / jupyter notebook / vim / git / bitbucket
+% photo of Blackmagic SDI / Black magic interface / Visual Studio Environment / jupyter notebook / vim / git / bitbucket
