@@ -1,4 +1,5 @@
 \documentclass[12pt]{report}
+\usepackage[a4paper, margin=1in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{blindtext}
 \usepackage{graphicx}
@@ -23,8 +24,12 @@
     \fancyfoot[R]{\thepage}%
 }
 
+\setlength{\parskip}{.75em}
+\linespread{1.4}
 
 \begin{document}
+%\setlength{\baselineskip}{1.5cm}
+
 \begin{titlepage}
     \begin{center}
     	\Large
@@ -51,6 +56,7 @@
 \end{titlepage}
 \renewcommand{\thepage}{\roman{page}}
 \chapter*{Preface}
+
 This report comprises my experiences in vcLABs (Pvt.) Ltd. where I chose and I was chosen to get my 24-week training as an undergraduate of department of Electronic and Telecomminication of University of Moratuwa.
 
 The first chapter gives an overview of vcLABs (Pvt.) Ltd, The history, current situation and future endeavours of the company. The next chapter is dedicated to the training experience I had in the company as a Software Development trainee. Finally in the conclusion I try to have an evaluation of my training experience.

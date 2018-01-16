@@ -1,49 +1,73 @@
-\section{Training Experience}
-Lorem ipsum dolor sit amet, option tamquam vim ea, ne habeo phaedrum pro. Sit ex deleniti percipit. Ea inani explicari salutatus qui, vim no iuvaret alterum deterruisset. Qui facer partiendo argumentum at, sit an delectus facilisis. Id sit putant eirmod.
+I was recruited as a software engineering intern to vcLABs with two of my colleagues of University of Moratuwa, Heshan Fernando and Vidura Sumanasena. We were assigned to improve the current ad detection system.
 
-Id solet fastidii incorrupte has, mea in odio vidit congue. Erant recteque ei pro, affert altera pri an. Mel congue ullamcorper cu. Eos sumo ipsum soluta et. Stet quas ferri sed in, mei cu quis labores copiosae. No his inani salutandi, illum posse veritus ea qui. Tincidunt dissentiunt vix ea, mei dicit nonumes intellegebat eu, no nam dicant percipit.
+\section{Tasks Assigned}
+The main problem that vcLABs ad detection tool had was the inter-channel ad detection. The tool works perfectly when it comes to detecting ads which are trained from the same channel (intra-channel ad detection). But if it were to detect an ad for which its hash was generated from another channel, it was not able to detect that ad most of the time. Our first task was to create a channel agnostic algorithm for ad detection. We were not explained the existing detection algorithm because it would constrain our ideas. But guidance was given during the tasks by Dr. Madhawa and our supervisors.
 
-Quo cu liberavisse comprehensam. Vero impetus nostrum eu mei, ridens eirmod duo an. Id qui errem fabulas appareat. In atqui quidam insolens mea, id mei reque populo docendi.
+I participated in mainly 3 tasks.
 
-Sit in nonumy populo, vis ex splendide philosophia interpretaris. Cu tempor graeci inciderint his, te eos legere accommodare. Verterem electram ut vix. At decore commodo pro. Ludus graeco te nam, cum aperiam euismod offendit ad, tota dicam at pri. His aeterno appareat te, no brute essent convenire mea. Quo in paulo nominati, unum voluptaria consetetur ne eam.
+\begin{itemize}
+\item Developing my own algorithm to compare videos
+\item Investigating the potential of using Single-shot Multi-box Detector (SSD) model to ad detection in collaboration with one of my colleagues (Heshan Fernando)
+\item Investigating the potential of using Siamese architecture to detect ads in collaboration with Heshan Fernando
+\end{itemize}
 
-No volutpat conceptam sed, fugit prompta cum no. Ius quis vivendum definiebas te. Ei maluisset sententiae sit, an vel minim libris. Ferri omittantur eu ius. Ex diam porro sea, in ius scaevola mandamus.
-Lorem ipsum dolor sit amet, option tamquam vim ea, ne habeo phaedrum pro. Sit ex deleniti percipit. Ea inani explicari salutatus qui, vim no iuvaret alterum deterruisset. Qui facer partiendo argumentum at, sit an delectus facilisis. Id sit putant eirmod.
+\section{Environments Used}
+The existing algorithm was coded in c++. As we were expected to familiarize with the current system architecture, we were given some time to get to to know the environment. The input device to the workstation that runs the system was a Decklink SDI 4K card.
 
-Id solet fastidii incorrupte has, mea in odio vidit congue. Erant recteque ei pro, affert altera pri an. Mel congue ullamcorper cu. Eos sumo ipsum soluta et. Stet quas ferri sed in, mei cu quis labores copiosae. No his inani salutandi, illum posse veritus ea qui. Tincidunt dissentiunt vix ea, mei dicit nonumes intellegebat eu, no nam dicant percipit.
+\begin{figure}[!hbt]
+		\begin{center}
+		\includegraphics [width=.4\textwidth]{decklink-sdi-4k.jpg}
+		\caption{Decklink SDI 4K Card }.
+		\label{fig:deckilink-card}
+		\end{center}
+\end{figure} 
 
-Quo cu liberavisse comprehensam. Vero impetus nostrum eu mei, ridens eirmod duo an. Id qui errem fabulas appareat. In atqui quidam insolens mea, id mei reque populo docendi.
+Decklink SDI 4K card inputs the downstream from the satellite in SDI format which consists raw video and audio data. This card has its own API, with a detailed documentation. I had never referred an API before for development purposes so this was a learning experience for me.
 
-Sit in nonumy populo, vis ex splendide philosophia interpretaris. Cu tempor graeci inciderint his, te eos legere accommodare. Verterem electram ut vix. At decore commodo pro. Ludus graeco te nam, cum aperiam euismod offendit ad, tota dicam at pri. His aeterno appareat te, no brute essent convenire mea. Quo in paulo nominati, unum voluptaria consetetur ne eam.
+The company used Visual Studio 2013 in their projects so we were encouraged to use it for our projects. 
 
-No volutpat conceptam sed, fugit prompta cum no. Ius quis vivendum definiebas te. Ei maluisset sententiae sit, an vel minim libris. Ferri omittantur eu ius. Ex diam porro sea, in ius scaevola mandamus.
+\begin{figure}[!hbt]
+		\begin{center}
+		\includegraphics [width=.4\textwidth]{visual_studio_purple.png}
+		\caption{Visual Studio 2013 }.
+		\label{fig:visual-studio}
+		\end{center}
+\end{figure}
 
-Lorem ipsum dolor sit amet, option tamquam vim ea, ne habeo phaedrum pro. Sit ex deleniti percipit. Ea inani explicari salutatus qui, vim no iuvaret alterum deterruisset. Qui facer partiendo argumentum at, sit an delectus facilisis. Id sit putant eirmod.
+I wasn't familiar with visual studio before, so there was a learning curve on learning visual studio and c++. 
 
-Id solet fastidii incorrupte has, mea in odio vidit congue. Erant recteque ei pro, affert altera pri an. Mel congue ullamcorper cu. Eos sumo ipsum soluta et. Stet quas ferri sed in, mei cu quis labores copiosae. No his inani salutandi, illum posse veritus ea qui. Tincidunt dissentiunt vix ea, mei dicit nonumes intellegebat eu, no nam dicant percipit.
+In addition to Visual Studio, I used \texttt{python} in machine learning tasks as it is currently the leading programming language in machine learning and AI. \texttt{Tensorflow}, \texttt{keras} and \texttt{matplotlib} were the most used modules. In addition I was able to familiarize with \texttt{conda environments} and \texttt{python package manager} called \texttt{pip}.
 
-Quo cu liberavisse comprehensam. Vero impetus nostrum eu mei, ridens eirmod duo an. Id qui errem fabulas appareat. In atqui quidam insolens mea, id mei reque populo docendi.
+Most the developments related to machine learning was done on an \texttt{Ubuntu} machine. Meanwhile, I was able to get to know about some basic terminal tasks like activating python environments, using terminal editors like vim, source control using git, etc.
 
-Sit in nonumy populo, vis ex splendide philosophia interpretaris. Cu tempor graeci inciderint his, te eos legere accommodare. Verterem electram ut vix. At decore commodo pro. Ludus graeco te nam, cum aperiam euismod offendit ad, tota dicam at pri. His aeterno appareat te, no brute essent convenire mea. Quo in paulo nominati, unum voluptaria consetetur ne eam.
+\begin{figure}[!hbt]
+		\begin{center}
+		\includegraphics [width=.4\textwidth]{software-tools.png}
+		\caption{Some other Software Tools Used }.
+		\label{fig:software-tools}
+		\end{center}
+\end{figure}
 
-No volutpat conceptam sed, fugit prompta cum no. Ius quis vivendum definiebas te. Ei maluisset sententiae sit, an vel minim libris. Ferri omittantur eu ius. Ex diam porro sea, in ius scaevola mandamus.
+Seldom I had to use \texttt{docker images} to work with \texttt{caffe}, \texttt{Microsoft Cognitive Toolkit (CNTK)}, \texttt{scikit-learn} in order to get some idea about machine learning frameworks.
 
-Lorem ipsum dolor sit amet, option tamquam vim ea, ne habeo phaedrum pro. Sit ex deleniti percipit. Ea inani explicari salutatus qui, vim no iuvaret alterum deterruisset. Qui facer partiendo argumentum at, sit an delectus facilisis. Id sit putant eirmod.
+\section{Familiarization Programs}
+In order to be familiar with Visual Studio Environment, my former supervisor assigned me to develop a simple video player make using \texttt{opencv} in \texttt{c++}. I had to spend almost a week to get \texttt{opencv} working in the Visual Studio Environment. I was given some \texttt{c++} tutorials to follow along with some simple \texttt{opencv} tutorials, ranging from opening an image to detection of an object via a webcam using simple HSV (Hue-Saturation-Value) color-space segmentation.
 
-Id solet fastidii incorrupte has, mea in odio vidit congue. Erant recteque ei pro, affert altera pri an. Mel congue ullamcorper cu. Eos sumo ipsum soluta et. Stet quas ferri sed in, mei cu quis labores copiosae. No his inani salutandi, illum posse veritus ea qui. Tincidunt dissentiunt vix ea, mei dicit nonumes intellegebat eu, no nam dicant percipit.
+In the first month we were given a rough idea about the system that is operational in DialogTV without going into details as mentioned before.
 
-Quo cu liberavisse comprehensam. Vero impetus nostrum eu mei, ridens eirmod duo an. Id qui errem fabulas appareat. In atqui quidam insolens mea, id mei reque populo docendi.
+\subsection{Field Trip to DialogTV}
 
-Sit in nonumy populo, vis ex splendide philosophia interpretaris. Cu tempor graeci inciderint his, te eos legere accommodare. Verterem electram ut vix. At decore commodo pro. Ludus graeco te nam, cum aperiam euismod offendit ad, tota dicam at pri. His aeterno appareat te, no brute essent convenire mea. Quo in paulo nominati, unum voluptaria consetetur ne eam.
+\section{The Algorithm to identify Similar Images}
 
-No volutpat conceptam sed, fugit prompta cum no. Ius quis vivendum definiebas te. Ei maluisset sententiae sit, an vel minim libris. Ferri omittantur eu ius. Ex diam porro sea, in ius scaevola mandamus.
 
-Lorem ipsum dolor sit amet, option tamquam vim ea, ne habeo phaedrum pro. Sit ex deleniti percipit. Ea inani explicari salutatus qui, vim no iuvaret alterum deterruisset. Qui facer partiendo argumentum at, sit an delectus facilisis. Id sit putant eirmod.
+\section{Investigation on the Potential of Using SSD Model to Detect Ads}
+\subsection{Introduction to SSD Model}
+\subsection{Metric to Define Distances between Labels}
+\subsection{Results}
+\subsection{What's Next?}
 
-Id solet fastidii incorrupte has, mea in odio vidit congue. Erant recteque ei pro, affert altera pri an. Mel congue ullamcorper cu. Eos sumo ipsum soluta et. Stet quas ferri sed in, mei cu quis labores copiosae. No his inani salutandi, illum posse veritus ea qui. Tincidunt dissentiunt vix ea, mei dicit nonumes intellegebat eu, no nam dicant percipit.
-
-Quo cu liberavisse comprehensam. Vero impetus nostrum eu mei, ridens eirmod duo an. Id qui errem fabulas appareat. In atqui quidam insolens mea, id mei reque populo docendi.
-
-Sit in nonumy populo, vis ex splendide philosophia interpretaris. Cu tempor graeci inciderint his, te eos legere accommodare. Verterem electram ut vix. At decore commodo pro. Ludus graeco te nam, cum aperiam euismod offendit ad, tota dicam at pri. His aeterno appareat te, no brute essent convenire mea. Quo in paulo nominati, unum voluptaria consetetur ne eam.
-
-No volutpat conceptam sed, fugit prompta cum no. Ius quis vivendum definiebas te. Ei maluisset sententiae sit, an vel minim libris. Ferri omittantur eu ius. Ex diam porro sea, in ius scaevola mandamus.
+\section{Investigation on the Potential of Using Siamese Architecture to Detect Ads}
+\subsection{Introduction to Siamese Architecture}
+\subsection{Data generation}
+\subsection{Results}
+\subsection{What's Next?}
