@@ -6,7 +6,7 @@ The main problem that vcLABs ad detection tool had was the inter-channel ad dete
 I participated in mainly 3 tasks.
 
 \begin{itemize}
-\item Developing my own algorithm to compare videos
+\item Developing an algorithm to compare videos
 \item Investigating the potential of using Single-shot Multi-box Detector (SSD) model to ad detection in collaboration with one of my colleagues (Heshan Fernando)
 \item Investigating the potential of using Siamese architecture to detect ads in collaboration with Heshan Fernando
 \end{itemize}
@@ -48,24 +48,223 @@ Most the developments related to machine learning was done on an \texttt{Ubuntu}
 		\end{center}
 \end{figure}
 
-Seldom I had to use \texttt{docker images} to work with \texttt{caffe}, \texttt{Microsoft Cognitive Toolkit (CNTK)}, \texttt{scikit-learn} in order to get some idea about machine learning frameworks.
+Seldom I had to use \texttt{docker images} to work with \texttt{caffe}, \texttt{Microsoft Cognitive Toolkit (CNTK)}, \texttt{scikit-learn} and \texttt{OpenAI} in order to get some idea about machine learning frameworks.
 
 \section{Familiarization Programs}
 In order to be familiar with Visual Studio Environment, my former supervisor assigned me to develop a simple video player make using \texttt{opencv} in \texttt{c++}. I had to spend almost a week to get \texttt{opencv} working in the Visual Studio Environment. I was given some \texttt{c++} tutorials to follow along with some simple \texttt{opencv} tutorials, ranging from opening an image to detection of an object via a webcam using simple HSV (Hue-Saturation-Value) color-space segmentation.
 
-In the first month we were given a rough idea about the system that is operational in DialogTV without going into details as mentioned before.
+At the end of the familiarization period I was able to make a command-line video player which can play a given video in a constant frame rate. I made use of \texttt{opencv highgui} framework. To control the frame rate I used a PID controller out of curiosity and it worked fine.
 
-\subsection{Field Trip to DialogTV}
+Amidst the training period we shifted to apply machine learning in ad detection task. In order to get comfortable with machine learning, I followed some machine learning tutorials involving both \texttt{tensorflow} and \texttt{keras}. \texttt{Keras} is a \texttt{tensorflow} wrapper but very much simple.
 
-\section{The Algorithm to identify Similar Images}
+In order to shift from rule based programming to machine learning and AI, I had to move from Microsoft Windows to Ubuntu, which is a linux distribution that is widely used among machine learning community. As there is a huge community, getting problems solved was much easier.
+
+As a requirement to \texttt{tensorflow}, \texttt{NVIDIA CUDA} drivers had to be installed. CUDA gives programmers a chance to write massively parallel programs which makes use of GPU. I had an \texttt{NVIDIA GEFORCE 920M} GPU on my machine so I installed CUDA. I followed some on-line tutorials about CUDA programming so that I could use it for optimization purposes.
+
+During the first month of the training period a black box kind of introduction (without going into details) was given to us by engineers at vcLABs.
+
+\subsection{Field Trip to DialogTV Kotahena}
+The actual ad replacement system is in operation at DialogTV Kotahena Establishment. I learned the following facts from this field visit:
+
+\subsubsection{Functions of DialogTV Kotahena}
+
+\begin{itemize}
+\item Receiving channels: Foreign channels are received via satellites and via cables and local channels are received from Normal antennas.
+\item Process Channels: Processing include audio balancing, video rate matching, etc. and ad replacement and multiplexing.
+\item Sending up-link to satellite.
+\item Customer care: Taking action on breakdowns, etc. 
+\end{itemize}
+
+\subsubsection{Ad Replacement System}
+
+The ad replacement system is operated by the Ad Insertion Unit of DialogTV Engineering Team. Both the old manual system and the new automated system created by vcLABs are under operation in parallel. This Ad Insertion Unit and vcLABs engineering team are in a constant communication in order to develop the system. The Ad Insertion Unit has basically following tasks:
+
+\begin{itemize}
+\item Maintaining manual ad insertion
+\item Monitor automated ad replacement system
+\item Report for bugs in automated ad replacement system to vcLABs engineers.
+\end{itemize}
+
+\section{Video Comparison Algorithm}
+
+\subsection{Introduction}
+The most simplest way to compare 2 videos would be to take corresponding frames and take the SSD of the frames and add them up. For an identical video pair, this comparison would give a value of zero. In a way this distance can be considered as the Euclidean distance between the 2 videos.
+
+\begin{equation}
+\text{SSD}=\sum_{i=1}^N |F_{i,1}-F_{i,2}|^2
+\end{equation}
+
+Here $F_{i,n}$ means the $i$\textsuperscript{th} frame of the video $n$ ($n=1\text{ or } 2$). $N$ is the number of frames in videos. If the resolution of the video is $p\times q$, then $F_{i,n}$ is a $p\times q \times 3$ array because a pixel is described by $3$ values in our case. (e.g. RGB, HSV) 
+
+So if we want to compare videos we simply need to calculate the "Euclidean distance" of the 2 videos. (Here we assume the videos have the same number of frames.) If the $\text{SSD}=0$ we deduce that the videos are the same, otherwise they are not.
+
+But in a practical scenario this is hardly the case. Sometimes videos which are totally different to our perception will result in lower $\text{SSD}$ values than the same video pair. This may happen due to noise added to video in the transmission, processing of videos and other reasons.
+
+So the method I propose intends to have a remedy for that.
+
+\subsection{Description of the Algorithm}
+
+\subsubsection{Rationale}
+%For simplicity let's consider 2 pairs of videos with resolution $5\times 5$.
+What We perceive in an image is defined by not only individual pixel values but also by the relationship between pixel values.
+
+In our case we need to detect an ad regardless of the channel. For instance, if we find region $A$ darker than region $B$ on a frame of an ad, that would be the case regardless of the channel for the same ad. That was the main principle behind the algorithm.
+
+\subsubsection{Method}
+\begin{figure}[!hbt]
+		\begin{center}
+		\includegraphics [width=.6\textwidth]{lgo.png}
+		\caption{Final Algorithm to Figure out Closeness between 2 Videos }.
+		\label{fig:final-algo}
+		\end{center}
+\end{figure}
+Figure \ref{fig:final-algo} sums up the algorithm. \texttt{Frame i}, and \texttt{Frame i+k} on the left belong to one video and that of on the left belong to another. Here what it meant by a \texttt{Frame} can be the original frame of the video as it is or a processed version. For example, the process can be Gaussian Bluring plus downsampling. Nevertheless, all \texttt{Frame}s should be of the same resolution and color space.
+
+\texttt{Transfer} is a function to replace the pixels from its original location. It can be a rotation followed by a resize for instance. Here \texttt{k} should be chosen in order to get a good accuracy plus a speed. Higher \texttt{k} increases the delay and accuracy.
+
+The function denoted by \texttt{1} outputs 2 results. They are \texttt{inc} and \texttt{dec} which are masks. \texttt{inc} keeps track of pixel positions for which pixel value increased from \texttt{rFrame} to \texttt{Frame i+k}. \texttt{dec} keeps track of that of decreased. \texttt{OR}, \texttt{XOR} and \texttt{AND} carry their usual meaning and they are pixel-wise.
+% can add more details
+
+The rest of the algorithm is self explanatory except for the function \texttt{f} which gives the final score of how equal the 2 videos are.
+
+\subsubsection{Results}
+
+\paragraph{Susceptibility to Gamma-Correction}
+
+\begin{figure}[!hbt]
+		\begin{center}
+		\includegraphics [width=.4\textwidth]{result-algo-vs-gamma-corrected.png}
+		\caption{Confusion matrix of the video similarity between 8 videos and their gamma corrected versions. Here $\sf g\_ads $ axis represents the gamma corrected versions of $\sf ads$ }.
+		\label{fig:result-algo-vs-gamma-corrected}
+		\end{center}
+\end{figure}
+
+The algorithm was check against 8 videos and their Gamma Corrected versions and the confusion matrix of the task is given in Fig. \ref{fig:result-algo-vs-gamma-corrected}.
+
+
+
+\paragraph{Susceptibility to AWGN}
+
+\begin{figure}[!hbt]
+		\begin{center}
+		\includegraphics [width=.4\textwidth]{result-algo-vs-noise1.png}
+		\caption{Confusion matrix of the video similarity between 8 videos and videos for which AWGN with $\sigma=1$ was added. Here $\sf nvids3 $ axis represents the noisy versions of $\sf vids$ }.
+		\label{fig:result-algo-vs-noise1}
+		\end{center}
+\end{figure}
+
+Additive White Gaussian Noise (AWGN) with $\sigma=1$ was added and checked and the results are shown in Fig. \ref{fig:result-algo-vs-noise1}.
+
+
+
+\subsubsection{What's Next?}
+The algorithm was tested using python which is not suitable for a real time ad detection system. It should be converted to c++ which is faster than python and for which off the shelf libraries are available to migrate the algorithm to the current ad replacement system.
+
+Most of the functions used in the algorithm are bitwise operations, so that calculation time would be minimized. Since pixel-wise operations are also there platforms such as CUDA can be used for more optimizations.
+
+\subsubsection{Tools used for the development}
+
+\paragraph{Python}
+
+Python programming language is a widely used programming language and very easy to use. If more work is to be done in a short amount of time without thinking about maintainability and security, one of the best choices would be python. 
+
+To test my idea of the algorithm it only took very less amount of time. Python has its own package manager which makes thing even more easier. To check the viability of the algorithm, I needed to read videos. For that purpose I just needed to install the necessary package, \texttt{scikit-video} with its dependencies. Then all the documentation and sample codes are freely available online so I was good to go with the algorithm.
+
+\paragraph{Jupyter Notebook}
+
+Jupyter Notebook is the ideal environment for a person to test things up rather than building a whole system. The interactive nature of Jupyter Notebooks come in handy in many occasions. If someone need to explain something to someone on the go they create their work Jupyter notebook would be the perfect candidate. 
+
+Currently reproducible research is a hot topic in research community. Jupyter Notebook environment is unmatched by many solutions currently available for such purposes. One of the most important aspect of Jupyter Notebooks is that it's open source and free. And one of the key other advantages is that it's accessible remotely. 
+
+Machine Learning and data science community is currently mostly benefited by this tool. Although there are some glitches they are quite insignificant compared to the advantages we could gain from this tool.
+
+The whole algorithm was created and tested on a Jupyter Notebook environment. The key features I used were: 
+\begin{itemize}
+\item Its inline plotting capability powered by \texttt{matplotlib}
+\item Ability to easily incorporate diagrams
+\item Ability to incorporate equations
+\item Markup functionality to add formatting, e.g:
+	\begin{itemize}
+	\item Heading Levels
+	\item block quotes
+	\item Bold italic functionality
+	\end{itemize}
+\item ability to easily convert to different other formats like:
+	\begin{itemize}
+	\item pdf
+	\item html
+	\item Restructured Text Format
+	\item markup
+	\item latex
+	\item slideshows powered by reveal.js
+	\item python code (other parts are commented except python code in this format)
+	\end{itemize}
+\end{itemize}
+
+
+\paragraph{FFMPEG}
+
+FFMPEG is highly versatile, command-line tool for tasks related for videos such as:
+
+\begin{itemize}
+\item Conversion of videos to different formats / encodings
+\item Extracting video frames as images
+\item Changing the quality level of the video
+\end{itemize}
+
+... and many more. The functions I used most on my path to the algorithm are listed above.
+
+\paragraph{Numpy}
+
+Numpy is a python library available for numeric / linear algebraic functionality. It has highly optimized algorithms for handling higher dimensional data structures which makes the life easier for a programmer. 
+
+\paragraph{Matplotlib}
+
+Matplotlib comes in handy for plotting purposes. The sublibrary I used the most is \texttt{matplotlib.pyplot}. Not only plotting, but also the ability to  import images to the workspace, matplotlib can be used.
+
+A pure matlab experience can be achieved free of charge if one has both numpy and matplotlib in my opinion. It is even better if those two were used in a Jupyter notebook.
 
 
 \section{Investigation on the Potential of Using SSD Model to Detect Ads}
-\subsection{Introduction to SSD Model}
-\subsection{Metric to Define Distances between Labels}
-\subsection{Results}
-\subsection{What's Next?}
 
+\subsection{Introduction to SSD Model}
+SSD (Single Shot Multibox Detector) architecture is one of the state of the art content recognition models currently in the world (Fig. \ref{fig:ssd-arch}). SSD model is a deep convolution neural network (DCNN) that does the following once an image is given as its input.
+
+\begin{itemize}
+\item Detect the content of the image: Here the contents are pre-trained
+\item Create bounding boxes around the detected content
+\item Label the caged content
+\end{itemize}
+
+\begin{figure}[!hbt]
+		\begin{center}
+		\includegraphics [width=\textwidth]{SSD_architecture.pdf}
+		\caption{Comparison between the 2 models YOLO and SSD. YOLO was also a content detection algorithm created by Facebook AI reseearch lab and was the superior content recognition system prior to SSD }.
+		\label{fig:ssd-arch}
+		\end{center}
+\end{figure}
+
+YOLO (You Look Only Once), created by Facebook AI research team can be considered as one of the world's first real-time content detection systems. But the SSD architecture proved to be superior than YOLO due to its higher accuracy and higher frame rate. SSD was developed by Google AI research group.
+
+Use of SSD to recognize ads was put forward by Dr. Madhawa Silva on one of our online meetings. Human perception of an advertisement is partially based on the contents that are in the advertisement. Since SSD does the exact thing, that suggests that there is a possibility of using SSD to advertisement detection.
+
+The SSD Model I used was trained on COCO dataset and had a considerable amount of ability to detect contents with the following labels:
+
+Airplane, bicycle, bird, boat, bottle, bus, car, cat, chair, cow, dinning table, dog, horse, motorbike, person, potted plant, sheep, sofa, train, tv monitor.
+
+\subsection{Metric to Define Distances between Labels}
+
+This task was collaborative done with one of my colleagues at vcLABs, Heshan Fernando. We both were asked to develop out own metric to make use of the output of SSD network in order to generate some hash for ad detection.
+
+I followed the following approach:
+\begin{itemize}
+\item Hacked into SSD to get useful data: Rather than final output which contains most probable detection I needed to see the level before that, i.e. the level where predictions were
+\end{itemize}
+
+\subsection{Results}
+\blindtext
+\subsection{What's Next?}
+\subsection{Tools used for this task}
 \section{Investigation on the Potential of Using Siamese Architecture to Detect Ads}
 \subsection{Introduction to Siamese Architecture}
 \subsection{Data generation}
