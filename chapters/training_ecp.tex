@@ -3,12 +3,13 @@ I was recruited as a software engineering intern to vcLABs with two of my collea
 \section{Tasks Assigned}
 The main problem that vcLABs ad detection tool had was the inter-channel ad detection. The tool works perfectly when it comes to detecting ads which are trained from the same channel (intra-channel ad detection). But if it were to detect an ad for which its hash was generated from another channel, it was not able to detect that ad most of the time. Our first task was to create a channel agnostic algorithm for ad detection. We were not explained the existing detection algorithm because it would constrain our ideas. But guidance was given during the tasks by Dr. Madhawa and our supervisors.
 
-I participated in mainly 3 tasks.
+I participated in mainly 4 tasks.
 
 \begin{itemize}
 \item Developing an algorithm to compare videos
 \item Investigating the potential of using Single-shot Multi-box Detector (SSD) model to ad detection in collaboration with one of my colleagues (Heshan Fernando)
 \item Investigating the potential of using Siamese architecture to detect ads in collaboration with Heshan Fernando
+\item Creating a Error Reporting System to the Current Ad replacement System.
 \end{itemize}
 
 \section{Environments Used}
@@ -85,6 +86,21 @@ The ad replacement system is operated by the Ad Insertion Unit of DialogTV Engin
 \item Report for bugs in automated ad replacement system to vcLABs engineers.
 \end{itemize}
 
+\subsection{Workshop by Dr. Madhawa}
+
+This was held on 30th October 2017 at Cinnamon Lakeside Hotel. That workshop was an eye opener for me. The workshop discussed the following:
+\begin{itemize}
+\item History of vcLABs
+\subitem How vcLABs came in to existence was discussed with the background story metioned in the introduction
+\item Current Situation
+\subitem Situation of the current projects going on, and the ad replacement system was discussed
+\item Future plans
+\subitem Future plans to make the company more profitable and useful to Sri Lanka was discussed in detail
+\item Operations in other branches
+\subitem Dr. Madhawa discussed about the situation about the US branch and the Australia branch including their future projects in the area of machine learning research
+
+\end{itemize}
+
 \section{Video Comparison Algorithm}
 
 \subsection{Introduction}
@@ -127,9 +143,9 @@ The function denoted by \texttt{1} outputs 2 results. They are \texttt{inc} and 
 
 The rest of the algorithm is self explanatory except for the function \texttt{f} which gives the final score of how equal the 2 videos are.
 
-\subsubsection{Results}
+\subsection{Results}
 
-\paragraph{Susceptibility to Gamma-Correction}
+\subsubsection{Susceptibility to Gamma-Correction}
 
 \begin{figure}[!hbt]
 		\begin{center}
@@ -143,7 +159,7 @@ The algorithm was check against 8 videos and their Gamma Corrected versions and 
 
 
 
-\paragraph{Susceptibility to AWGN}
+\subsubsection{Susceptibility to AWGN}
 
 \begin{figure}[!hbt]
 		\begin{center}
@@ -157,20 +173,20 @@ Additive White Gaussian Noise (AWGN) with $\sigma=1$ was added and checked and t
 
 
 
-\subsubsection{What's Next?}
+\subsection{What's Next?}
 The algorithm was tested using python which is not suitable for a real time ad detection system. It should be converted to c++ which is faster than python and for which off the shelf libraries are available to migrate the algorithm to the current ad replacement system.
 
 Most of the functions used in the algorithm are bitwise operations, so that calculation time would be minimized. Since pixel-wise operations are also there platforms such as CUDA can be used for more optimizations.
 
-\subsubsection{Tools used for the development}
+\subsection{Tools used for the development}
 
-\paragraph{Python}
+\subsubsection{Python}
 
 Python programming language is a widely used programming language and very easy to use. If more work is to be done in a short amount of time without thinking about maintainability and security, one of the best choices would be python. 
 
 To test my idea of the algorithm it only took very less amount of time. Python has its own package manager which makes thing even more easier. To check the viability of the algorithm, I needed to read videos. For that purpose I just needed to install the necessary package, \texttt{scikit-video} with its dependencies. Then all the documentation and sample codes are freely available online so I was good to go with the algorithm.
 
-\paragraph{Jupyter Notebook}
+\subsubsection{Jupyter Notebook}
 
 Jupyter Notebook is the ideal environment for a person to test things up rather than building a whole system. The interactive nature of Jupyter Notebooks come in handy in many occasions. If someone need to explain something to someone on the go they create their work Jupyter notebook would be the perfect candidate. 
 
@@ -202,7 +218,7 @@ The whole algorithm was created and tested on a Jupyter Notebook environment. Th
 \end{itemize}
 
 
-\paragraph{FFMPEG}
+\subsubsection{FFMPEG}
 
 FFMPEG is highly versatile, command-line tool for tasks related for videos such as:
 
@@ -214,11 +230,11 @@ FFMPEG is highly versatile, command-line tool for tasks related for videos such 
 
 ... and many more. The functions I used most on my path to the algorithm are listed above.
 
-\paragraph{Numpy}
+\subsubsection{Numpy}
 
 Numpy is a python library available for numeric / linear algebraic functionality. It has highly optimized algorithms for handling higher dimensional data structures which makes the life easier for a programmer. 
 
-\paragraph{Matplotlib}
+\subsubsection{Matplotlib}
 
 Matplotlib comes in handy for plotting purposes. The sublibrary I used the most is \texttt{matplotlib.pyplot}. Not only plotting, but also the ability to  import images to the workspace, matplotlib can be used.
 
@@ -248,7 +264,7 @@ YOLO (You Look Only Once), created by Facebook AI research team can be considere
 
 Use of SSD to recognize ads was put forward by Dr. Madhawa Silva on one of our online meetings. Human perception of an advertisement is partially based on the contents that are in the advertisement. Since SSD does the exact thing, that suggests that there is a possibility of using SSD to advertisement detection.
 
-The SSD Model I used was trained on COCO dataset and had a considerable amount of ability to detect contents with the following labels:
+The SSD Model I used was trained on COCO dataset and had a considerable amount of ability to detect contents with the following 20 labels:
 
 Airplane, bicycle, bird, boat, bottle, bus, car, cat, chair, cow, dinning table, dog, horse, motorbike, person, potted plant, sheep, sofa, train, tv monitor.
 
@@ -256,17 +272,387 @@ Airplane, bicycle, bird, boat, bottle, bus, car, cat, chair, cow, dinning table,
 
 This task was collaborative done with one of my colleagues at vcLABs, Heshan Fernando. We both were asked to develop out own metric to make use of the output of SSD network in order to generate some hash for ad detection.
 
+\begin{figure}[!hbt]
+		\begin{center}
+		\includegraphics [width=\textwidth]{ssd-example.pdf}
+		\caption{An example of SSD in action }.
+		\label{fig:ssd-example}
+		\end{center}
+\end{figure}
+
+In the process of defining a hash from SSD output, it is a vital part to get the relationship between labels (content categories). For instance question such as "how probable that a picture of a dog can be predicted as sheep?" should be incorporated in to the hash generating method.
+
 I followed the following approach:
 \begin{itemize}
-\item Hacked into SSD to get useful data: Rather than final output which contains most probable detection I needed to see the level before that, i.e. the level where predictions were
+\item Investgated SSD internals to get useful data: 
+\subitem Rather than final output (e.g. Fig. \ref{fig:ssd-example}) which contains most probable detection I needed to see the level before that, i.e. the level where predictions were given for every 20 labels and for all bounding boxes.
+\subitem There were no such things as predefined bounding boxes in the model although 7308 priory boxes are there. 
+\subitem The model actually outputs a $7308\times 33$ array for each image it is fed into, i.e. each of the priory box has $33$ values generated
+\subitem Out of the $33$ values $20$ confidence values were given for each content type, i.e. label
+\subitem Another 4 values were dedicated for the actual location of the bounding box which may or may not be the location of the priory box
+
+\item Created images with different quality levels
+\subitem 1000 from each label were downloaded from COCO dataset.(Altogether 20000 images).
+\subitem Here I didn't use the existing ad frame for this task because ad frames rarely comprised of the labels that the existing SSD model was trained for. Retraining the model such that it suits for the ad frame database was a tedious task and might be an overkill before understanding the viability of the method.
+\subitem All the images were blurred with 10 levels of $\sigma$ values of a Gaussian kernel.
+\subitem For each image downloaded 10 quality levels were there.
+
+\item Predictions were generated for each of the quality level such that for each image, an array of $10\times7308\times33$ dimension was outputted.
+
+\item It was observed what happens to predictions with the quality level.
 \end{itemize}
 
-\subsection{Results}
-\blindtext
+\subsubsection{Rationale}
+The observations on how predictions change with quality level was done in order to figure out a way to build a relationship among labels. Let's say the quality level changes from $0$ to $9$, from best to worst. What was expected to happen was a label change for on the way of quality level from $0$ to $9$. For instance if for a box, prediction was changed from "dog" to "sheep" that would be an indication that "dog" is much closer label to "sheep" than "kites".
+
+\subsubsection{Algorithm to Create an $n$-dimensional hyper space for labels}
+Once the relative distance are given it is able to make a $n$ dimensional hyper space for the 20 labels where each of the label has it's own spot on the hyper space so that easily distance of 2 labels is mapped to just distance of 2 pointsin the hyperspace.
+
+Let's define distances matrix, $D$:
+
+$
+D =
+ \begin{pmatrix}
+  d_{0,0} & d_{0,1} & \cdots & d_{0,n-1} \\
+  d_{1,0} & d_{1,1} & \cdots & d_{1,n-1} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  d_{n-1,0} & d_{n-1,1} & \cdots & d_{n-1,n-1}
+ \end{pmatrix}
+`$
+
+coordinates matrix, $X$:
+
+$
+X =
+ \begin{pmatrix}
+  x_{0,0} & x_{0,1} & \cdots & x_{0,n-2} \\
+  x_{1,0} & x_{1,1} & \cdots & x_{1,n-2} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  x_{n-1,0} & x_{n-1,1} & \cdots & x_{n-1,n-2}
+ \end{pmatrix}
+$
+
+Here, $x_{i,j}$: 
+\begin{itemize}
+\item $i$: point
+\item $j$: axis
+\end{itemize}
+
+
+We first initialise first 2 coordinates as:
+\begin{itemize}
+\item $P_0\equiv(d_{0,0},)$
+\item $P_1\equiv(d_{0,1},)$
+\end{itemize}
+
+
+To figure out $P_2$, we need to solve the 2 equations of circles centered at $P_0$ and $P_1$ whose radii are $d_{0,2}$ and $d_{1,2}$ respectively.
+
+For example:
+
+If,
+$
+D =
+ \begin{pmatrix}
+ 0 & 1 & 1 & 1 & 1 & 1 \\
+ 1 & 0 & \sqrt{2} & \sqrt{2} & \sqrt{2} & \sqrt{2} \\
+ 1 & \sqrt{2} & 0 & \sqrt{2} & \sqrt{2} & \sqrt{2} \\
+ 1 & \sqrt{2} & \sqrt{2} & 0 & \sqrt{2} & \sqrt{2} \\
+ 1 & \sqrt{2} & \sqrt{2} & \sqrt{2} & 0 & \sqrt{2} \\
+ 1 & \sqrt{2} & \sqrt{2} & \sqrt{2} & \sqrt{2} & 0 \\
+ \end{pmatrix}
+`$
+
+the output should be given by:
+
+$
+X =
+ \begin{pmatrix}
+ 0 & 0 & 0 & 0 & 0 \\
+ 1 & 0 & 0 & 0 & 0 \\
+ 0 & 1 & 0 & 0 & 0 \\
+ 0 & 0 & 1 & 0 & 0 \\
+ 0 & 0 & 0 & 1 & 0 \\
+ 0 & 0 & 0 & 0 & 1 \\
+ \end{pmatrix}
+`$
+
+
 \subsection{What's Next?}
+It is necessary to Come up  with a probabilistic algorithm to get the coordinates when perfect information is not available, or the information (distances) available have a confidence value associated with it (i.e. when we are not $100\%$ sure about the distance values)
 \subsection{Tools used for this task}
+\subsubsection{Python}
+Since this tasks comprises machine learning, python is the best option in the field currently. Apart from that some other reasons for python to be the choice given as follows:
+
+\begin{itemize}
+\item Faster to get something working
+\item Off the shelf modules for almost every task imagined with python
+\subitem With just typing \texttt{pip install <package>} many capabilities could be added.
+\item Virtual environments
+\subitem If we need to approach the dependency barrier, virtual environments is the way to go. For instance if someone needs 2 different versions of the same package for 2 projects they are working on, python provides virtual environments to do that exactly.
+\subitem Lots of SSD implementations were there with different dependencies. At some point I had to migrate from tensorflow implementation of SSD to akeras implementation in order to have a clearer  idea about the internals of the code. Since I was using virtual environments I could do it without any trouble
+\end{itemize}
+
+\subsubsection{Tensorflow}
+Tensorflow can be considered as the most widely used machine learning framework out there in the industry. This was open sourced by Google and helped revolutionizing machine learning, making it available to general public to play around with machine learning. Tensorflow has the following advantages:
+\begin{itemize}
+\item Community support
+\subitem Since there are lots of users using tensorflow, there is lots of support. Just googling an error gives the exactly the solution almost all times.
+\subitem Not only in forums but also in the forms of video tutorials, blog tutorials, the support is  available.
+\item Comprehensive Documentation
+\item Off the shelf pre-trained models
+\subitem There is an online repository for different kinds of models from tensorflow itself
+\subitem There are also models created by other people which they created themselves or created referring papers
+\item Highly optimized code
+\subitem tensorflow is highly optimized with the support of platforms such as CUDA,CUDNN, etc. 
+\subitem Intel has released its own version of tensorflow which is optimized especially for Intel processors.
+\end{itemize}
+
+Although there are lots of advantages, there are some pitfalls too.
+\begin{itemize}
+\item Somewhat complex abstraction layer
+\subitem Tensorflow has it's own method of calculating stuff with defining session, etc. For a new user it takes some time to get the hang of it
+\item For a beginner, it would be cumbersome to build his own model
+\end{itemize}
+
+\subsubsection{Keras}
+
+Keras is the solution for the complexity of tensorflow. If someone need to create some model as fast as possible keras could be a better solution. Keras can be considered as a wrapper to machine learning frameworks such as tensorflow, theano, CNTK, etc. I used mostly tensorflow as the backend. It doesn't matter what the backend is, because mostly keras implementations would not differ from backend to backend.
+
+Some of the advantages of keras are listed below.
+
+\begin{itemize}
+\item Easy-to-understand abstraction layer.
+\subitem Model can be built on the go without thinking about other stuff like in tensorflow
+\item Community Support
+\item Comprehensive documentation
+\item Availability of tutorials and models
+\subitem  The SSD model I used was already implemented. The authors of the original SSD paper has implemented it using caffe. Caffe is somewhat cumbersome to install. So keras version was taken.
+\end{itemize}
+
+Some of the cons of Keras:
+
+\begin{itemize}
+\item Less flexibility
+\subitem Since keras is just a wrapper, tensorflow internals cannot be changed without knowing the abstractions of tensorflow
+\end{itemize}
+
+
+
 \section{Investigation on the Potential of Using Siamese Architecture to Detect Ads}
 \subsection{Introduction to Siamese Architecture}
-\subsection{Data generation}
-\subsection{Results}
+Siamese Architecture was first used in 1993 for the task of signature verification as shown in Fig. \ref{fig:siamese-first} which was extracted from the original paper.
+\begin{figure}[!hbt]
+		\begin{center}
+		\includegraphics [width=\textwidth]{siamese-first.png}
+		\caption{The first use of Siamese Architecture }.
+		\label{fig:siamese-first}
+		\end{center}
+\end{figure}
+
+Siamese architecture has the idea of using twin models sharing the mirror image of weights by each other connected from the end to create an output using two inputs. One half of the network we used is shown on Fig. \ref{fig:siamese-used}. Most of the time Siamese architecture is used to figure out whether the inputs are the same or not. Of course siamese architecture can be extended for task of N-way detection.
+
+\begin{figure}[!hbt]
+		\begin{center}
+		\includegraphics [width=\textwidth]{siamese-used.jpg}
+		\caption{One half of the siamese Architecture used}.
+		\label{fig:siamese-used}
+		\end{center}
+\end{figure}
+
+As the task of ad detection can be considered as an "N-way siamese task", Siamese Architecture would be an ideal architecture to use for ad detection as proposed by Dr. Madhawa.
+
+\subsection{Role played}
+This investigation was assigned to me and my colleague Heshan Fernando. I was responsible for the following:
+
+\begin{itemize}
+\item Creating the dataset to be trained
+\item Calculation of performance metrics for the trained model
+\end{itemize}
+
+\subsection{Creation of the dataset}
+We were able to find an implementation of Siamese Architecture for onle shot learning of omniglot dataset. Omniglot dataset has about 1600 characters with 25 examples for each character.
+
+One shot learning is training the network with least amount of data unlike training DCNNs. As humans we have the ability of one shot learning. For instance if a child shown a spoon once, it has the ability to identify another spoon later on.
+
+Creation of the dataset to be trained on the network that was pre-trained on the omniglot dataset evolved with the following steps:
+
+\begin{itemize}
+\item Extracting ads from the channels Discovery, Animal Planet and Fox Life
+\subitem Three of the channels are belong to the same family of channels who share same ads so that we can use this for checking for inter-channel ad recognition purpose too.
+
+\subitem The ads were extracted using the logs generated by the current ad monitoring system
+\subitem The video streams were captured for the three channels using "Black Magic Media Express"
+\subitem The streams captured by the above application were in SDI format so they were compressed by FFMPEG
+\subitem The ads extracted using the logs had some start and end point issues. So it was tackled manually.
+\subitem Extracted ads were saved frame by frame as jpeg images
+
+\item Equalizing similar ads
+\subitem Similar ads should have same number of frames. Because of some technicalities this was not the case. The equalizing task was done manually so that similar ads has the same number of frames with frame by frame correspondence.
+
+\item Similar scene cutting
+\subitem This step is the most important step in the process since this is the step that decides whether Siamese Network is fed with right data. First my colleague Vidura Sumanasena wrote a program to figure out scene changes. But later on it was decided to switch to a manual method of similar scene cutting because there's no meaning in using Siamese architecture if we have scene change detection program. The program we used had also human intervention, but not up to the expected level.
+\subitem So it was figured out a way to cut similar scenes with the expected level of human intervention. The part where which are similar or not were decided with the help of the terminal program Ranger which proved to be much more productive than the GUI file browsers.
+\subitem We had accumulated about 300 advertisements of which about 70 were unique without repetitions. Only of those 70 we had to cut the scenes manually. The rest was automated by a python scripts.
+\subitem Finally we achieved about 690 different scenes with more than 20 similar images.
+\subitem That dataset was used in the task of training the Siamese Network.
+
+\end{itemize}
+
+\subsection{Performance Metrics Calculations}
+After training the pre-trained Siamese network with the ad frames generated, the 200 way Siamese Network was tested on testing data set and the results on table \ref{table:siamese-results} were obtained:
+ 
+\begin{table}[h!]
+\caption{Performance metrics of the 200 way Siamese Oneshot task}
+\label{table:siamese-results}
+\centering
+
+\begin{tabular}{||c| c| c||} 
+ \hline
+ Precision & Recall & F1 Score \\ [0.5ex] 
+ \hline\hline
+ $82\%$ & $77\%$ & $80\%$ \\ [1ex] 
+ \hline
+\end{tabular}
+
+
+\end{table}
+
 \subsection{What's Next?}
+Although Siamese Architecture is proved to be a solution to the ad detection problem, there are some issues yet to tackle:
+\begin{itemize}
+\item Performance issue
+\subitem Since this uses the heavy burden of more than 1 million weights a lots of calculations should be made. Python is not a kind of programming language that can be considered fast.
+\subitem The system should be migrated to a industry level realtime applications using a programming language such as c++ or java. 
+\subitem The network can be developed using a more efficient framework such as caffe or dl4j.
+\item Training issues. 
+\subitem Allthough the training is done for about 690 scenes, it is not enough for a model containing more than million parameters.
+\subitem At least 2000 scenes should be generated in order to match the order of size of omniglot dataset.
+\subitem The training was done to a previously trained model on omniglot dataset. This should not be the case because more advanced techniques like transfer learning can be applied.
+\end{itemize}
+\subsection{Tools used}
+
+\subsubsection{Ranger}
+Ranger is a command line tool for file browsing. This was used in the task of scene creation.
+
+Following some of the advantages of Ranger over other terminal / GUI file browsers.
+
+\begin{itemize}
+\item Vim like key mappings. e.g:
+\begin{itemize}
+\item yy: to copy a file
+\item dd: to delete a file
+\item G: to go to the end of the folder
+\end{itemize}
+\subitem These commands were the most used commands in the process of scene generation
+\item Image preview
+\subitem This was a very useful feature due to the fact that I needed this functionality in order to figure out which scene differ from which. This was an added functionality with the help of \texttt{w3m} browser which is a terminal internet browser which incorporates images on to the terminal
+\end{itemize}
+
+\subsubsection{Python}
+The python's ability to use as a scripting tool is used a lot in the project.
+
+Following are some the uses of python in this project (except for tasks that are described in earlier projects):
+
+\begin{itemize}
+\item File handling and work related to OS. Main modules used:
+\begin{itemize}
+\item os: python os module has functionality like:
+	\begin{itemize}
+	\item rename files
+	\item move files
+	\item delete files
+	\item create and read destinations of symbolic links 
+	\end{itemize}
+\item shutil: this provides shell functionality such as:
+	\begin{itemize}
+	\item copy files
+	\item copy folders
+	\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Blackmagic Media Express}
+Blackmagic media express is a software tool that is shipped with Decklink drivers. It has the following functionalities:
+
+\begin{itemize}
+\item Playback feature: If the Decklink SDI 4k card is connected to an input, Media express program has the ability to playbck it in real time. The input can be one of the following formats:
+	\begin{itemize}
+	\item PAL
+	\item NTSC
+	\end{itemize}
+
+\item Capture feature: What is inputed can also be captured and saved locally to a file in raw format
+
+\item Screenshot: While the input is playing, screenshots can be taken.
+\end{itemize}
+
+One of the downfalls of Media Express is it cannot be accessed by a external program.
+
+\section{Error Reporting System}
+
+This was a request by the Senior Tecnical Officer of DialogTV Ad Insertion Unit Supun Dias. The task was to create an e-mail alert system to report errors occur in the current ad replacement system. The system runs on a java servelet container called Apache Tomcat. It creates log files called "catelina". My task was to create an email alert whenever an error is created in that catelina log files. 
+
+\subsection{Implementation}
+
+This was implemented using a simple python script which either uses secured TLS or SSL for the email service. Following specifications were requested by Mr. Supun.
+
+\begin{itemize}
+\item Ability to send to multiple users
+\item Ability to easily define rules for error detection
+\item Ability to define a timeout such that same errors won't be notified constantly
+\item Ability to define a sleep time where the Error Reporting System does not access the log files.
+\end{itemize}
+
+This project used the python library \texttt{smtplib} to send emails.
+
+\subsection{What's Next}
+The system is currently under operation in DialogTV. But this Error Reporting Sytem can be further developed if they want. For instance Tomcat provides Error reporting internally without that much flexibility. The code written should be refactored more with a proper documentation in order to make it more portable.
+
+\subsection{Tools Used}
+
+\subsubsection{Python}
+This is also an occasion where python's scripting capability comes in to play.  It took a very less amount of time to complete this task because all the tools and documentation were available to build the system.
+
+\subsubsection{Jupyter Notebook}
+To simulate the catalina error log creating and error notification processes I used Jupyter Notebook, which is an unconventional use of it. Nevertheless it proved to be a great tool to be used in such tasks too.
+
+\section{Final Demonstration Done at DialogTV Premises Kotahena}
+This demonstration was done on the 13\textsuperscript{th} of December 2017. The participants were Eng. Darshitha Samarakoon and Mr. Supun Dias, Vidura Sumanasena, Heshan Fernando and myself. 
+
+Vidura showed his work on the ad detection system which was able to tackle
+\begin{itemize}
+\item inter-cahnnel ad detection problem. 
+\item Magic number generation problem
+\subitem Magic number generation happens when video frames are either dark or light, generating either values 0, or 255 which will constraint the ability to detect ads.
+\item Garbage in frames
+\subitem Sometimes in the process of transmission of satellite feed, some signatures are included in addition to the content on the frames.
+\subitem Sometimes due to facts like seasonal reasons or offers, several objects on frames are included by the channels.
+\item Zooming / aspect ratio changes
+\end{itemize}
+
+Eng. Darshitha asked VIdura to try specified amount of:
+\begin{itemize}
+\item cropped
+\item zoomed in
+\end{itemize}
+
+videos and they were detected successfully with higher confidence values. Eng. Darshitha and Mr. Supun Dias requested us to:
+
+\begin{itemize}
+\item implement his algorithm without removing borders or logos
+\item icrease more attention to middle of the frames
+\item implement a method to incorporate interest regions on the frames
+\item embed Vidura's code on current system
+\item add performance improvements
+\item make an interface such that the system can be tuned by DialogTV ad insertion unit
+\end{itemize}
+
+Heshan presented on our progress on the work on Siamese architecture and SSD Architecture. The main points made were,
+\begin{itemize}
+\item their susceptibility to inter-channel ad detection
+\item their ability to minimize hash space which will lead to space savings
+\item the potential of the machine learning architectures for real time ad detection system
+\end{itemize}
+
+The demonstration concluded successfully.
